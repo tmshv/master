@@ -64,6 +64,49 @@
 |  8993692 | На Ленинском проспекте у перекрестка с проспектом Народного Ополчения. Газель прилегла отдохнуть. Все живы! Водитель газели вылез через пассажирскую дверь! |         25 |      74 |         3 |   84722 |                   0 |
 | 13483428 | На перекрёстке проспекта Юрия  Гагарина и Кузнецовской столкнулись Ауди и Рав Таёта.                                                                        |         29 |      27 |         1 |   72689 |                   2 |
 
+## Отчистка
+
+Пример отчистки от сообщение, которые не ДТП:
+
+```py
+df = df[~df['text'].str.contains('не дтп', case=False)]
+
+df = df[~df['text'].str.contains('угнан', case=False)]
+df = df[~df['text'].str.contains('угнали', case=False)]
+df = df[~df['text'].str.contains('украден', case=False)]
+df = df[~df['text'].str.contains('украли', case=False)]
+df = df[~df['text'].str.contains('ограбления', case=False)]
+
+df = df[~df['text'].str.contains('пропал', case=False)]
+df = df[~df['text'].str.contains('Дайджест', case=False)]
+df = df[~df['text'].str.contains('задымление', case=False)]
+df = df[~df['text'].str.contains('жильцы', case=False)]
+df = df[~df['text'].str.contains('стреляют', case=False)]
+
+df = df[~df['text'].str.contains('нужна помощь', case=False)]
+df = df[~df['text'].str.contains('помогите', case=False)]
+df = df[~df['text'].str.contains('выручайте', case=False)]
+```
+
+Скорее всего ДТП:
+
+```py
+df.loc[df['text'].str.contains('сбили', case=False, na=False), 'accident'] = 1
+df.loc[df['text'].str.contains('сбит', case=False, na=False), 'accident'] = 1
+df.loc[df['text'].str.contains('сбил', case=False, na=False), 'accident'] = 1
+
+df.loc[df['text'].str.contains('вылетел', case=False, na=False), 'accident'] = 1
+df.loc[df['text'].str.contains('врезался', case=False, na=False), 'accident'] = 1
+df.loc[df['text'].str.contains('зацепил', case=False, na=False), 'accident'] = 1
+df.loc[df['text'].str.contains('притёр', case=False, na=False), 'accident'] = 1
+df.loc[df['text'].str.contains('перевернул', case=False, na=False), 'accident'] = 1
+
+df.loc[df['text'].str.contains('не справился', case=False, na=False), 'accident'] = 1
+df.loc[df['text'].str.contains('не вписался', case=False, na=False), 'accident'] = 1
+
+df.loc[df['text'].str.contains('паровоз', case=False, na=False), 'accident'] = 1
+df.loc[df['text'].str.contains('тройничок', case=False, na=False), 'accident'] = 1
+```
 
 ## Анализ
 
